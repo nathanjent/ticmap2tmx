@@ -7,8 +7,8 @@ function Map2Tmx:convert(input)
  local tmxdata = {
   map = {
    _attr = {
-    version = "1.0",
-    tiledversion = "1.0.3",
+    version = "1.5",
+    tiledversion = "1.7.2",
     orientation = "orthogonal",
     renderorder = "left-up",
     width = 240,
@@ -16,15 +16,12 @@ function Map2Tmx:convert(input)
     tilewidth = 8,
     tileheight = 8,
     nextobjectid = 1,
-   },
-   tileset = {
-    _attr = {
-     firstgid = 1,
-     source = "tileset.tsx"
-    }
+    nextlayerid = 2,
+    infinite = 0,
    },
    layer = {
     _attr = {
+     id= 1,
      name = "Tile Layer 1",
      width = 240,
      height = 136
@@ -33,25 +30,38 @@ function Map2Tmx:convert(input)
      _attr = {
       encoding = "csv"
      },
-    }
-   }
-  }
+    },
+   },
+   tileset = {
+    _attr = {
+     firstgid = 1,
+     source = "tiles.tsx"
+    },
+   },
+  },
  }
 
- local csvdata = ""
- local row = ""
+ -- parse map data
+ local mapvalues = {}
  for c in input:gmatch('.') do
-  if #row >= 480 then 
-   csvdata = csvdata .. row .. "\n"
-   row = ""
-  end
-  row  = row .. (c:byte() + 1) .. ","
+  table.insert(mapvalues, c:byte() + 1)
  end
+
+ -- Create CSV string
+ local csvstring = ""
+ for i,v in ipairs(mapvalues) do
+  csvstring = csvstring..v..","
+  if i % tmxdata.map.layer._attr.width == 0 then
+   csvstring = csvstring.."\n"
+  end
+ end
+
  -- Remove final comma and newline characters
- csvdata = csvdata:sub(1, -3)
- --print(csvdata)
- tmxdata.map.layer.data[1] = csvdata
- return xml2lua.toXml(tmxdata)
+ csvstring = csvstring:sub(1, -3)
+ tmxdata.map.layer.data[1] = csvstring
+
+ -- Add XML header to generated string
+ return '<?xml version="1.0" encoding="UTF-8"?>\n'..xml2lua.toXml(tmxdata)
 end
 
 local function test_MapToTmx()
