@@ -30,12 +30,15 @@ tileset on a map at a time in TIC-80.)
 - Height: 136
 - Tile width: 8
 - Tile height: 8
-- Tile layer format: [XML, CSV] (Base64 formats are not yet supported)
+- Tile layer format: [ XML, CSV ]
+  - Base64 formats are not yet supported
 
 ### Tileset Settings
 
 - Grid width: 8
 - Grid height: 8
+
+Convert your TMX file to a TIC-80 map. Save it to a location accessible to the TIC-80 application. 
 
     $ ./ticmap2tmx mytic80.tmx mytic80.map
     
