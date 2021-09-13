@@ -1,6 +1,8 @@
 local xml2lua = require("xml2lua")
 local handler = require("xmlhandler.tree")
 local base64 = require("base64")
+local zlib = require("zlib")
+local zstd = require("zstd")
 local SIZE = 32640
 
 local Tmx2Map = {}
@@ -10,7 +12,6 @@ function Tmx2Map:convert(xml)
     parser:parse(xml)
 
     local data = handler.root.map.layer.data
-    local mapdata = {}
     if data._attr then
         if data._attr.encoding == "csv" then
             local tiledata = {}
@@ -19,27 +20,30 @@ function Tmx2Map:convert(xml)
                 tiledata[i] = value - 1
                 i = i + 1
             end
-            mapdata = string.char(table.unpack(tiledata))
+            return string.char(table.unpack(tiledata))
         elseif data._attr.encoding == "base64" then
-            -- uncompressed
             local decodeddata = base64.decode(data[1])
+
+            -- Decompress if compression type provided
+            if data._attr.compression then
+                if data._attr.compression == "gzip"
+                    or data._attr.compression == "zlib" then
+                    decodeddata = zlib.inflate()(decodeddata)
+                elseif data._attr.compression == "zstd" then
+                    decodeddata = zstd.decompress(decodeddata)
+                end
+            end
+
             local bytedata = { decodeddata:byte(1, -1) }
             local tiledata = {}
-            -- Ignore the extra bytes
+
+            -- Step over the extra bytes from 32 bit data
+            -- The TIC-80 map is not big enough to use the extra bytes
             for i=1,#bytedata,4 do
                 table.insert(tiledata,  bytedata[i] - 1)
             end
-            if data._attr.compression then
-                if data._attr.compression == "gzip" then
-                    print(data)
-                elseif data._attr.compression == "zlib" then
-                    print(data)
-                elseif data._attr.compression == "zstd" then
-                    print(data)
-                end
-            else
-                mapdata = string.char(table.unpack(tiledata))
-            end
+
+            return string.char(table.unpack(tiledata))
         end
     else
         -- Deprecated XML tile layer format
@@ -47,10 +51,8 @@ function Tmx2Map:convert(xml)
         for i=1,SIZE do
             tiledata[i] = data.tile[i]._attr.gid - 1
         end
-        mapdata = string.char(table.unpack(tiledata))
+        return string.char(table.unpack(tiledata))
     end
-
-    return mapdata
 end
 
 local function loadTestMap()

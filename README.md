@@ -13,7 +13,7 @@ From TIC-80 export your map data.
 
     export map mytic80.map
 
-With Lua and xml2lua library installed run the following Lua script.  (I might
+With Lua and xml2lua library installed run the following Lua script. (I might
 create a LuaRocks module for this later)
 
     lua ticmap2tmx.lua mytic80.map mytic80.tmx
@@ -31,7 +31,7 @@ sprites tileset on a map at a time in TIC-80.)
 - Tile width: 8
 - Tile height: 8
 - Tile layer format: [ XML, CSV, Base64 ]
-  - Base64 compression formats are not yet supported
+  - Base64 compression formats are supported with lua-zlib and lua-zstd modules
 
 ### Tileset Settings
 
