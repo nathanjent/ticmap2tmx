@@ -1,0 +1,37 @@
+#!/usr/bin/env lua
+
+local VERSION = 0.1
+
+local status, ticmap2tmx = pcall(require, "ticmap2tmx")
+if not status then
+  local local_path = ';./ticmap2tmx/?.lua;./ticmap2tmx/?/init.lua'
+  package.path = package.path .. local_path
+  status, ticmap2tmx = pcall(require, "ticmap2tmx")
+end
+
+if not status then
+  error "`ticmap2tmx` module not found, problems with the installation?"
+end
+
+local usage = "TIC-80 Map to TMX version: " .. VERSION .. [[
+Usage: ticmap2tmx <input file> <output file>
+
+The input file should be either a TIC-80 '*.map' file or a Tile '*.tmx' file.
+The conversion is determined by the file extensions and order of arguments.
+For example, 'ticmap2tmx mymap.map mymap.tmx' would convert from a TIC-80 map
+to the Tiled TMX data format.
+]]
+
+if #arg == 0 then
+  print(usage)
+  os.exit(1)
+end
+
+local fromfilename = arg[1]
+local tofilename = arg[2]
+if not fromfilename or not tofilename then
+  print(usage)
+  os.exit(1)
+end
+
+ticmap2tmx:convert(fromfilename, tofilename)
