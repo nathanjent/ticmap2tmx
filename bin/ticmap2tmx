@@ -13,14 +13,17 @@ if not status then
   error "`ticmap2tmx` module not found, problems with the installation?"
 end
 
-local usage = "TIC-80 Map to TMX version: " .. VERSION .. [[
+local usage = [[
+TIC-80 Map to Tiled TMX Converter
+Version: ]] .. VERSION .. [[
+
+
 Usage: ticmap2tmx <input file> <output file>
 
-The input file should be either a TIC-80 '*.map' file or a Tile '*.tmx' file.
+The input file should be either a TIC-80 '*.map' file or a Tiled '*.tmx' file.
 The conversion is determined by the file extensions and order of arguments.
 For example, 'ticmap2tmx mymap.map mymap.tmx' would convert from a TIC-80 map
-to the Tiled TMX data format.
-]]
+to the Tiled TMX data format.]]
 
 if #arg == 0 then
   print(usage)
