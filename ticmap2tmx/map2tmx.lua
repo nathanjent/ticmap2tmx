@@ -1,6 +1,16 @@
 local xml2lua = require("xml2lua")
 
 local Map2Tmx = {}
+
+-- Parse map data
+function Map2Tmx:parseMapData(mapdata)
+    local mapvalues = {}
+    for c in mapdata:gmatch('.') do
+        table.insert(mapvalues, c:byte() + 1)
+    end
+    return mapvalues
+end
+
 -- Converts a TIC-80 map file to a Tiled TMX file.
 -- Only support CSV tile data currently.
 function Map2Tmx:convert(input)
@@ -41,11 +51,7 @@ function Map2Tmx:convert(input)
         },
     }
 
-    -- parse map data
-    local mapvalues = {}
-    for c in input:gmatch('.') do
-        table.insert(mapvalues, c:byte() + 1)
-    end
+    local mapvalues = self:parseMapData(input)
 
     -- Create CSV string
     local csvstring = ""
@@ -62,32 +68,6 @@ function Map2Tmx:convert(input)
 
     -- Add XML header to generated string
     return '<?xml version="1.0" encoding="UTF-8"?>\n'..xml2lua.toXml(tmxdata)
-end
-
-local function test_MapToTmx()
-    -- load test files that should not be modified by tests
-    local mapfile, maperr = io.open("./testassets/test.map", "rb")
-    if not mapfile then
-        error(maperr)
-    end
-    local mapdata = mapfile:read("a")
-    mapfile:close()
-
-    local expectedxml = xml2lua.loadFile("./testassets/test_csv_layerdata.tmx")
-
-    -- run conversion
-    local actualxml = Map2Tmx:convert(mapdata)
-
-    -- parse the outputs to compare
-    local expectedhandler = require("xmlhandler.tree")
-    xml2lua.parser(expectedhandler):parse(expectedxml)
-
-    local actualhandler = require("xmlhandler.tree")
-    xml2lua.parser(actualhandler):parse(actualxml)
-
-    local expecteddata = expectedhandler.root.map[1].layer.data[1]
-    local actualdata = actualhandler.root.map[1].layer.data[1]
-    assert(expecteddata == actualdata, "Tile data mismatch.")
 end
 
 return Map2Tmx
