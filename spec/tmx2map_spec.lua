@@ -16,9 +16,7 @@ describe("TMX to MAP conversion", function ()
       it("should convert to a MAP file", function ()
          local actualmapdata = tmx2map:convertToArray(tmxdata)
          for i,c in ipairs(actualmapdata) do
-            print("c: "..c)
-            print("v: "..mapvalues[i])
-            assert(mapvalues[i] == c+1, "Map mismatch at "..i)
+            assert(mapvalues[i] == c + 1, "Map mismatch at "..i)
          end
       end)
    end)

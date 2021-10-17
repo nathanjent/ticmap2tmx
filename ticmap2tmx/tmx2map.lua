@@ -9,7 +9,7 @@ local Tmx2Map = {}
 -- Converts a Tiled TMX file to a TIC-80 map string
 function Tmx2Map:convert(xml)
     local tiledata = self:convertToArray(xml)
-    return string.char(table.unpack(tiledata))
+    return table.unpack(tiledata)
 end
 
 -- Converts a Tiled TMX file to a TIC-80 map data array
@@ -19,15 +19,23 @@ function Tmx2Map:convertToArray(xml)
     parser:parse(xml)
 
     local data = handler.root.map.layer.data
+    local tiledata
     if data._attr then
         if data._attr.encoding == "csv" then
-            return tiledataparser:parseCSV(data[1])
+            tiledata = tiledataparser:parseCSV(data[1])
         elseif data._attr.encoding == "base64" then
-            return tiledataparser:parseBase64(data[1], data._attr.compression)
+            tiledata = tiledataparser:parseBase64(data[1], data._attr.compression)
         end
     else
-        return tiledataparser:processXML(data, SIZE)
+        tiledata = tiledataparser:processXML(data, SIZE)
     end
+
+    -- TIC-80 doesn't have empty tiles, default to 0
+    for i,t in pairs(tiledata) do
+        if t < 0 then tiledata[i] = 0 end
+    end
+
+    return tiledata
 end
 
 return Tmx2Map
