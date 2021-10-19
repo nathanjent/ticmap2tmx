@@ -20,4 +20,4 @@ jobs:
       run: luarocks install luacheck
       
     - name: Run ‘luacheck’ linter
-      run: luacheck . --exclude-files .**/
+      run: luacheck ${{ github.workspace }} --exclude-files .**/
