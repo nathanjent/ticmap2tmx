@@ -18,7 +18,14 @@ function Tmx2Map:convertToArray(xml)
     local parser = xml2lua.parser(handler)
     parser:parse(xml)
 
-    local data = handler.root.map.layer.data
+    local map = handler.root.map
+    local data
+    if map.layer then
+        -- Parser works differently for XML tile data versus CSV and base64?
+        data = map.layer.data
+    else
+        data = map[1].layer.data
+    end
     local tiledata
     if data._attr then
         if data._attr.encoding == "csv" then

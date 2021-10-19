@@ -18,7 +18,13 @@ end
 function TileDataParser:processXML(xmltiledata, size)
     local tiledata = {}
     for i=1,size do
-        tiledata[i] = xmltiledata.tile[i]._attr.gid - 1
+        local tile = xmltiledata.tile[i]
+        if tile._attr then
+            tiledata[i] = tile._attr.gid - 1
+        else
+            -- Default to 0 for empty tiles
+            tiledata[i] = 0
+        end
     end
     return tiledata
 end
