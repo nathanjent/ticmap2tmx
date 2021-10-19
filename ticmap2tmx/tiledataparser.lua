@@ -4,7 +4,7 @@ local zstd = require("zstd")
 
 local TileDataParser = {}
 
-function TileDataParser:parseCSV(csvStr)
+function TileDataParser.parseCSV(csvStr)
     local data = {}
     local i = 1
     for value in csvStr:gmatch("([^,%s]+)") do
@@ -15,7 +15,7 @@ function TileDataParser:parseCSV(csvStr)
 end
 
 -- Parse the deprecated XML tile layer format
-function TileDataParser:processXML(xmltiledata, size)
+function TileDataParser.processXML(xmltiledata, size)
     local tiledata = {}
     for i=1,size do
         local tile = xmltiledata.tile[i]
@@ -29,7 +29,7 @@ function TileDataParser:processXML(xmltiledata, size)
     return tiledata
 end
 
-function TileDataParser:parseBase64(base64tiledata, compression)
+function TileDataParser.parseBase64(base64tiledata, compression)
     local decodeddata = base64.decode(base64tiledata)
 
     -- Decompress if compression type provided

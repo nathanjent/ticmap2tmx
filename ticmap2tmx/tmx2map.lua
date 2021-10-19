@@ -13,7 +13,7 @@ function Tmx2Map:convert(xml)
 end
 
 -- Converts a Tiled TMX file to a TIC-80 map data array
-function Tmx2Map:convertToArray(xml)
+function Tmx2Map.convertToArray(xml)
     local handler = require("xmlhandler.tree")
     local parser = xml2lua.parser(handler)
     parser:parse(xml)

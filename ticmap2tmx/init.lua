@@ -4,7 +4,7 @@ local map2tmx = require("ticmap2tmx.map2tmx")
 
 local Ticmap2tmx = {}
 
-function Ticmap2tmx:convert(fromfilename, tofilename)
+function Ticmap2tmx.convert(fromfilename, tofilename)
     print(fromfilename.."-->"..tofilename)
 
     local fromext = fromfilename:match("[^.]+$")

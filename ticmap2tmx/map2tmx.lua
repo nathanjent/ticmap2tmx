@@ -3,7 +3,7 @@ local xml2lua = require("xml2lua")
 local Map2Tmx = {}
 
 -- Parse map data
-function Map2Tmx:parseMapData(mapdata)
+function Map2Tmx.parseMapData(mapdata)
     local mapvalues = {}
     for c in mapdata:gmatch('.') do
         table.insert(mapvalues, c:byte() + 1)
