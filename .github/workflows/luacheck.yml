@@ -20,4 +20,4 @@ jobs:
       run: luarocks install luacheck
       
     - name: Run ‘luacheck’ linter
-      run: luacheck . --exclude-file .**/
+      run: luacheck . --exclude-files .**/
