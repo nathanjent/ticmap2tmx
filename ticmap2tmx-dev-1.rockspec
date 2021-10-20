@@ -20,7 +20,7 @@ description = {
    }
 }
 dependencies = {
-   "lua >= 5.4",
+   "lua >= 5.1",
    "xml2lua ~> 1.5",
    "lua-zlib ~> 1.2",
    "lua-zstd ~> 0.2",

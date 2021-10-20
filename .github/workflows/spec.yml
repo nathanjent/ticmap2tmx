@@ -23,6 +23,7 @@ jobs:
     - name: build
       run: |
         luarocks install busted
+        luarocks build
         luarocks make
 
     - name: test
