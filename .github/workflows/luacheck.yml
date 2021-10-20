@@ -14,10 +14,10 @@ jobs:
       uses: leafo/gh-actions-lua@v8.0.0
         
     - name: Setup ‘luarocks’
-      uses: leafo/gh-actions-luarocks@v4
+      uses: leafo/gh-actions-luarocks@v4.0.0
       
     - name: Setup ‘luacheck’
       run: luarocks install luacheck
       
     - name: Run ‘luacheck’ linter
-      run: luacheck . --exclude-files .**/
+      run: luacheck ${{ github.workspace }} --exclude-files .**/
