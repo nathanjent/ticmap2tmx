@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        luaVersion: ['5.1', '5.2', '5.3', '5.4', 'luajit', 'luajit-openresty']
+        luaVersion: ['5.1'] #, '5.2', '5.3', '5.4', 'luajit', 'luajit-openresty']
 
     runs-on: ubuntu-latest
 
@@ -22,7 +22,7 @@ jobs:
 
     - name: build
       run: |
-        sudo apt install -y libzstd-dev
+        sudo apt install -y zstd
         luarocks install busted
         luarocks build
         luarocks make
