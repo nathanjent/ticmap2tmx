@@ -22,7 +22,7 @@ jobs:
 
     - name: build
       run: |
-        sudo apt install -y libzstd-dev lua-zlib-dev
+        sudo apt install -y libzstd-dev zlibc lua-zlib-dev
         luarocks install busted
         luarocks build
         luarocks make
