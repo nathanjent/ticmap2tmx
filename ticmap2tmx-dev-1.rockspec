@@ -20,10 +20,11 @@ description = {
    }
 }
 dependencies = {
-   "lua >= 5.4",
+   "lua >= 5.1",
    "xml2lua ~> 1.5",
    "lua-zlib ~> 1.2",
-   "lua-zstd ~> 0.2",
+   -- zstd OS support is currently limited
+   -- "lua-zstd ~> 0.2",
    "base64 ~> 1.5"
 }
 build = {

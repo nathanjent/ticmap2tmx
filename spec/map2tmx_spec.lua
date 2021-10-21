@@ -4,7 +4,7 @@ describe("MAP to TMX conversion", function()
 
    -- load test files that should not be modified by tests
    local mapfile = assert(io.open("./spec/assets/test.map", "rb"))
-   local mapdata = mapfile:read("a")
+   local mapdata = mapfile:read("*a")
    mapfile:close()
 
    it("should convert a MAP file to TMX with CSV tile data", function()

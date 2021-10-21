@@ -7,16 +7,21 @@ and ported it Lua. I wanted it to be in a language that a majority of
 TIC-80 users would understand. I also wanted to update it to work with
 recent versions of TIC-80 and Tiled applications.
 
+## Install
+
+Clone the repository and install with LuaRocks.
+
+    luarocks make
+
 ## Convert from TIC-80 Map to Tiled TMX
 
 From TIC-80 export your map data.
 
     export map mytic80.map
 
-With Lua and xml2lua library installed run the following Lua script. (I might
-create a LuaRocks module for this later)
+Run the installed rock.
 
-    lua ticmap2tmx.lua mytic80.map mytic80.tmx
+    ticmap2tmx mytic80.map mytic80.tmx
 
 ## Convert from Tiled TMX to TIC-80 Map
 
@@ -31,7 +36,12 @@ sprites tileset on a map at a time in TIC-80.)
 - Tile width: 8
 - Tile height: 8
 - Tile layer format: [ XML, CSV, Base64 ]
-  - Base64 compression formats are supported with lua-zlib and lua-zstd modules
+  - Supported Base64 compression formats
+    - gzip (lua-zlib)
+    - zlib (lua-zlib)
+  - Unsupported Base64 compression formats
+    - zstd (lua-zstd)
+      - Support dropped to wait on OS adoption.
 
 ### Tileset Settings
 
@@ -41,7 +51,7 @@ sprites tileset on a map at a time in TIC-80.)
 Convert your TMX file to a TIC-80 map. Save it to a location accessible to the
 TIC-80 application.
 
-    lua ticmap2tmx.lua mytic80.tmx mytic80.map
+    ticmap2tmx mytic80.tmx mytic80.map
 
 From TIC-80 import your map data.
 
