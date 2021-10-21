@@ -1,6 +1,7 @@
 local base64 = require("base64")
 local zlib = require("zlib")
-local zstd = require("zstd")
+-- zstd OS support is currently limited
+-- local zstd = require("zstd")
 
 local TileDataParser = {}
 
@@ -37,8 +38,8 @@ function TileDataParser:parseBase64(base64tiledata, compression)
         if compression == "gzip"
             or compression == "zlib" then
             decodeddata = zlib.inflate()(decodeddata)
-        elseif compression == "zstd" then
-            decodeddata = zstd.decompress(decodeddata)
+        -- elseif compression == "zstd" then
+        --     decodeddata = zstd.decompress(decodeddata)
         end
     end
 
