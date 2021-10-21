@@ -3,7 +3,7 @@ describe("TMX to MAP conversion", function ()
    local map2tmx = require("ticmap2tmx.map2tmx")
 
    local mapfile = assert(io.open("./spec/assets/test.map", "rb"))
-   local mapdata = mapfile:read("a")
+   local mapdata = mapfile:read("*a")
    mapfile:close()
    local mapvalues = map2tmx:parseMapData(mapdata)
 
