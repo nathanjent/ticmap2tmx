@@ -9,9 +9,9 @@ recent versions of TIC-80 and Tiled applications.
 
 ## Install
 
-Clone the repository and install with LuaRocks.
+Install from luarocks.org.
 
-    luarocks make
+    luarocks install ticmap2tmx
 
 ## Convert from TIC-80 Map to Tiled TMX
 
